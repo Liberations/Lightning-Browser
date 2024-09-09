@@ -43,10 +43,16 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableKt;
 
 public final class Utils {
-
+    //网页入口
+    //public static final String HOME_PAGE = "http://192.168.110.50:4380/";
+    public static final String HOME_PAGE = "http://192.168.110.50:9999/files/";
+    public static final String WIFI_SSID = "CMCC_ASUS_5G";
     private static final String TAG = "Utils";
 
-    private Utils() {}
+
+
+    private Utils() {
+    }
 
     /**
      * Creates a new intent that can launch the email
@@ -82,10 +88,10 @@ public final class Utils {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTitle(title);
         builder.setMessage(message)
-            .setCancelable(true)
-            .setPositiveButton(activity.getResources().getString(R.string.action_ok),
-                (dialog, id) -> {
-                });
+                .setCancelable(true)
+                .setPositiveButton(activity.getResources().getString(R.string.action_ok),
+                        (dialog, id) -> {
+                        });
         AlertDialog alert = builder.create();
         alert.show();
         BrowserDialog.setDialogSize(activity, alert);
@@ -211,10 +217,10 @@ public final class Utils {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + '_';
         File storageDir = Environment
-            .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         return File.createTempFile(imageFileName, /* prefix */
-            ".jpg", /* suffix */
-            storageDir /* directory */
+                ".jpg", /* suffix */
+                storageDir /* directory */
         );
     }
 
@@ -262,8 +268,8 @@ public final class Utils {
         final Drawable webPageDrawable = ContextCompat.getDrawable(activity, R.drawable.ic_webpage);
         Preconditions.checkNonNull(webPageDrawable);
         final Bitmap webPageBitmap = DrawableKt.toBitmap(webPageDrawable,
-            webPageDrawable.getIntrinsicWidth(),
-            webPageDrawable.getIntrinsicHeight(), null);
+                webPageDrawable.getIntrinsicWidth(),
+                webPageDrawable.getIntrinsicHeight(), null);
 
         final Bitmap favicon = unsafeFavicon != null ? unsafeFavicon : webPageBitmap;
 
@@ -279,11 +285,11 @@ public final class Utils {
             ShortcutManager shortcutManager = activity.getSystemService(ShortcutManager.class);
             if (shortcutManager.isRequestPinShortcutSupported()) {
                 ShortcutInfo pinShortcutInfo =
-                    new ShortcutInfo.Builder(activity, "browser-shortcut-" + url.hashCode())
-                        .setIntent(shortcutIntent)
-                        .setIcon(Icon.createWithBitmap(favicon))
-                        .setShortLabel(title)
-                        .build();
+                        new ShortcutInfo.Builder(activity, "browser-shortcut-" + url.hashCode())
+                                .setIntent(shortcutIntent)
+                                .setIcon(Icon.createWithBitmap(favicon))
+                                .setShortLabel(title)
+                                .build();
 
                 shortcutManager.requestPinShortcut(pinShortcutInfo, null);
                 ActivityExtensions.snackbar(activity, R.string.message_added_to_homescreen);
@@ -308,7 +314,7 @@ public final class Utils {
             // Calculate the largest inSampleSize value that is a power of 2 and keeps both
             // height and width larger than the requested height and width.
             while ((halfHeight / inSampleSize) >= reqHeight
-                && (halfWidth / inSampleSize) >= reqWidth) {
+                    && (halfWidth / inSampleSize) >= reqWidth) {
                 inSampleSize *= 2;
             }
         }

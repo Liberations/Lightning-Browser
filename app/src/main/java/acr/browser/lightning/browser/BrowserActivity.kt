@@ -40,6 +40,7 @@ import acr.browser.lightning.extensions.tint
 import acr.browser.lightning.search.SuggestionsAdapter
 import acr.browser.lightning.ssl.createSslDrawableForState
 import acr.browser.lightning.utils.ProxyUtils
+import acr.browser.lightning.utils.Utils
 import acr.browser.lightning.utils.value
 import android.content.Intent
 import android.content.pm.ActivityInfo
@@ -295,6 +296,11 @@ abstract class BrowserActivity : ThemableBrowserActivity() {
         onBackPressedDispatcher.addCallback {
             presenter.onNavigateBack()
         }
+
+        binding.imgFresh.setOnClickListener {
+            presenter.onRefreshOrStopClick()
+        }
+
     }
 
     override fun onNewIntent(intent: Intent?) {

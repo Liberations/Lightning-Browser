@@ -1,5 +1,8 @@
 buildscript {
     repositories {
+        maven { setUrl("https://maven.aliyun.com/repository/public") } //jcenter
+        maven { setUrl("https://maven.aliyun.com/repository/google") } //google
+        maven { setUrl("https://jitpack.io") }
         gradlePluginPortal()
         google()
         mavenCentral()
@@ -21,6 +24,9 @@ buildscript {
 
 allprojects {
     repositories {
+        maven { setUrl("https://maven.aliyun.com/repository/public") } //jcenter
+        maven { setUrl("https://maven.aliyun.com/repository/google") } //google
+        maven { setUrl("https://jitpack.io") }
         google()
         mavenCentral()
         jcenter()

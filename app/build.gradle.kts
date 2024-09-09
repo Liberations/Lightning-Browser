@@ -119,6 +119,9 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:1.5.5")
     implementation("androidx.drawerlayout:drawerlayout:1.1.1")
     implementation("androidx.preference:preference:1.2.0")
+    implementation("com.blankj:utilcodex:1.31.1")
+
+    implementation("com.github.getActivity:XXPermissions:16.0")
 
     // html parsing for reading mode
     implementation("org.jsoup:jsoup:1.15.3")

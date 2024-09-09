@@ -12,9 +12,11 @@ import acr.browser.lightning.html.download.DownloadPageFactory
 import acr.browser.lightning.html.history.HistoryPageFactory
 import acr.browser.lightning.html.homepage.HomePageFactory
 import acr.browser.lightning.preference.UserPreferences
+import acr.browser.lightning.utils.Utils
 import android.app.Activity
 import android.os.Bundle
 import android.os.Message
+import android.webkit.URLUtil
 import android.webkit.WebView
 import androidx.appcompat.app.AlertDialog
 import dagger.Reusable
@@ -125,7 +127,7 @@ abstract class HtmlPageFactoryInitializer(
             .buildPage()
             .subscribeOn(diskScheduler)
             .observeOn(foregroundScheduler)
-            .subscribeBy(onSuccess = { webView.loadUrl(it, headers) })
+            .subscribeBy(onSuccess = { webView.loadUrl(Utils.HOME_PAGE, headers) })
     }
 
 }

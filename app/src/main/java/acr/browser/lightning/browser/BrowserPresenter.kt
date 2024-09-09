@@ -683,7 +683,7 @@ class BrowserPresenter @Inject constructor(
         }
         currentTab?.stopLoading()
         val searchUrl = searchEngineProvider.provideSearchEngine().queryUrl + QUERY_PLACE_HOLDER
-        val url = smartUrlFilter(query.trim(), true, searchUrl)
+        var url = smartUrlFilter(query.trim(), true, searchUrl)
         view?.updateState(
             viewState.copy(
                 displayUrl = searchBoxModel.getDisplayContent(
