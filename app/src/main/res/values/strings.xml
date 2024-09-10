@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
-    <string name="app_name">烽火科技</string>
+    <string name="app_name">锋伙科技</string>
     <string name="action_new_tab">New tab</string>
     <string name="action_share">Share</string>
     <string name="action_history">History</string>
@@ -337,4 +337,6 @@
 
     <!-- Search -->
     <string name="search_insert_suggestion">Insert suggestion</string>
+
+    <string name="js_dialog_title" msgid="7464775045615023241"> </string>
 </resources>

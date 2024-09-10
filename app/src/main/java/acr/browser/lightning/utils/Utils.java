@@ -44,7 +44,7 @@ import androidx.core.graphics.drawable.DrawableKt;
 
 public final class Utils {
     //网页入口
-    //public static final String HOME_PAGE = "http://192.168.110.50:4380/";
+    //public static final String HOME_PAGE = "http://192.168.110.50:9999/files";
     public static final String HOME_PAGE = "http://192.168.4.1";
     public static final String WIFI_SSID = "AMU";
     private static final String TAG = "Utils";

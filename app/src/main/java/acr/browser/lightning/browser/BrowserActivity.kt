@@ -40,7 +40,6 @@ import acr.browser.lightning.extensions.tint
 import acr.browser.lightning.search.SuggestionsAdapter
 import acr.browser.lightning.ssl.createSslDrawableForState
 import acr.browser.lightning.utils.ProxyUtils
-import acr.browser.lightning.utils.Utils
 import acr.browser.lightning.utils.value
 import android.content.Intent
 import android.content.pm.ActivityInfo
@@ -129,6 +128,8 @@ abstract class BrowserActivity : ThemableBrowserActivity() {
      */
     abstract fun isIncognito(): Boolean
 
+    private val TAG = "testBrowser"
+
     /**
      * Provide the menu used by the browser instance.
      */
@@ -141,24 +142,27 @@ abstract class BrowserActivity : ThemableBrowserActivity() {
     @DrawableRes
     abstract fun homeIcon(): Int
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = BrowserActivityBinding.inflate(LayoutInflater.from(this))
+        binding =
+            BrowserActivityBinding.inflate(LayoutInflater.from(this@BrowserActivity))
 
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
-
+        binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         injector.browser2ComponentBuilder()
-            .activity(this)
+            .activity(this@BrowserActivity)
             .browserFrame(binding.contentFrame)
             .toolbarRoot(binding.uiLayout)
             .toolbar(binding.toolbarLayout)
             .initialIntent(intent)
             .incognitoMode(isIncognito())
             .build()
-            .inject(this)
+            .inject(this@BrowserActivity)
 
-        binding.drawerLayout.addDrawerListener(object : DrawerLayout.SimpleDrawerListener() {
+        binding.drawerLayout.addDrawerListener(object :
+            DrawerLayout.SimpleDrawerListener() {
 
             override fun onDrawerOpened(drawerView: View) {
                 if (drawerView == binding.tabDrawer) {
@@ -214,11 +218,12 @@ abstract class BrowserActivity : ThemableBrowserActivity() {
             )
             binding.drawerTabsList.isVisible = true
             binding.drawerTabsList.adapter = tabsAdapter
-            binding.drawerTabsList.layoutManager = LinearLayoutManager(this)
+            binding.drawerTabsList.layoutManager =
+                LinearLayoutManager(this@BrowserActivity)
             binding.desktopTabsList.isVisible = false
         } else {
             tabsAdapter = DesktopTabRecyclerViewAdapter(
-                context = this,
+                context = this@BrowserActivity,
                 onClick = presenter::onTabClick,
                 onCloseClick = presenter::onTabClose,
                 onLongClick = presenter::onTabLongClick
@@ -226,7 +231,11 @@ abstract class BrowserActivity : ThemableBrowserActivity() {
             binding.desktopTabsList.isVisible = true
             binding.desktopTabsList.adapter = tabsAdapter
             binding.desktopTabsList.layoutManager =
-                LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+                LinearLayoutManager(
+                    this@BrowserActivity,
+                    RecyclerView.HORIZONTAL,
+                    false
+                )
             binding.desktopTabsList.itemAnimator?.takeIfInstance<SimpleItemAnimator>()
                 ?.supportsChangeAnimations = false
             binding.drawerTabsList.isVisible = false
@@ -238,11 +247,15 @@ abstract class BrowserActivity : ThemableBrowserActivity() {
             imageLoader = imageLoader
         )
         binding.bookmarkListView.adapter = bookmarksAdapter
-        binding.bookmarkListView.layoutManager = LinearLayoutManager(this)
+        binding.bookmarkListView.layoutManager =
+            LinearLayoutManager(this@BrowserActivity)
 
-        presenter.onViewAttached(BrowserStateAdapter(this))
+        presenter.onViewAttached(BrowserStateAdapter(this@BrowserActivity))
 
-        val suggestionsAdapter = SuggestionsAdapter(this, isIncognito = isIncognito()).apply {
+        val suggestionsAdapter = SuggestionsAdapter(
+            this@BrowserActivity,
+            isIncognito = isIncognito()
+        ).apply {
             onSuggestionInsertClick = {
                 if (it is SearchSuggestion) {
                     binding.search.setText(it.title)
@@ -253,11 +266,19 @@ abstract class BrowserActivity : ThemableBrowserActivity() {
                 }
             }
         }
-        binding.search.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
-            binding.search.clearFocus()
-            presenter.onSearchSuggestionClicked(suggestionsAdapter.getItem(position) as WebPage)
-            inputMethodManager.hideSoftInputFromWindow(binding.root.windowToken, 0)
-        }
+        binding.search.onItemClickListener =
+            AdapterView.OnItemClickListener { _, _, position, _ ->
+                binding.search.clearFocus()
+                presenter.onSearchSuggestionClicked(
+                    suggestionsAdapter.getItem(
+                        position
+                    ) as WebPage
+                )
+                inputMethodManager.hideSoftInputFromWindow(
+                    binding.root.windowToken,
+                    0
+                )
+            }
         binding.search.setAdapter(suggestionsAdapter)
         val searchListener = SearchListener(
             onConfirm = { presenter.onSearch(binding.search.text.toString()) },
@@ -300,6 +321,8 @@ abstract class BrowserActivity : ThemableBrowserActivity() {
         binding.imgFresh.setOnClickListener {
             presenter.onRefreshOrStopClick()
         }
+
+
 
     }
 
@@ -722,11 +745,11 @@ abstract class BrowserActivity : ThemableBrowserActivity() {
         if (enabled) {
             if (immersive) {
                 decor.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_FULLSCREEN
-                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+                        or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
             } else {
                 decor.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
             }
